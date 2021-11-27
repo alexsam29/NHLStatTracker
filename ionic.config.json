@@ -1,0 +1,7 @@
+{
+  "name": "NHLStatTracker",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
