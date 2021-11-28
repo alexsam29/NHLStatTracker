@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      NHL Stat Tracker
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +9,46 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">NHL Stat Tracker</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">Player Search:</ion-label>
+              <ion-input [clearInput]="true" placeholder="Enter a player's name" ngModel required minlength="1"
+                name="playerName"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button [disabled]="restockBtnDisabled" type="submit" color="primary" expand="block">Search
+            </ion-button>
+            <ion-button (click)="goBack()" color="tertiary" expand="block">View Favourites</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+    <ion-list>
+      <ion-list-header>
+        <h2>Results:</h2>
+      </ion-list-header>
+      <ion-item *ngFor="let player of listOfPlayers" button (click)="item_clicked(player)">
+
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>
+<ion-footer [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/player-details']">Session History
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
