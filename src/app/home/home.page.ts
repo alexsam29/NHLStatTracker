@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { PlayerSearchService } from '../services/player-search.service';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +10,11 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  results: Observable<any>;
 
+  constructor(private playerSearch: PlayerSearchService) {}
+
+  onSubmit(form: NgForm){
+    this.results = this.playerSearch.searchData(form.value.playerName);
+  }
 }

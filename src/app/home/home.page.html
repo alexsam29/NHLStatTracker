@@ -38,8 +38,17 @@
       <ion-list-header>
         <h2>Results:</h2>
       </ion-list-header>
-      <ion-item *ngFor="let player of listOfPlayers" button (click)="item_clicked(player)">
-
+      <ion-item *ngFor="let player of (results | async)" button (click)="item_clicked(player.substring(0,6))">
+        <ion-label>
+          <h2><b>{{player.split("|")[2]}} {{player.split("|")[1]}}</b></h2>
+          <h3>Team: {{player.split("|")[11]}}</h3>
+          <h3>Postion: {{player.split("|")[12]}}</h3>
+          <h3>Number: #{{player.split("|")[13]}}</h3>
+        </ion-label>
+        <ion-label>
+          <p>From: {{player.split("|")[7]}}, {{player.split("|")[8]}}</p>
+          <p>Country: {{player.split("|")[9]}}</p>
+        </ion-label>
       </ion-item>
     </ion-list>
   </div>
