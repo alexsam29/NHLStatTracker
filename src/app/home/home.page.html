@@ -23,7 +23,7 @@
       <ion-list-header>
         <h2>Results:</h2>
       </ion-list-header>
-      <ion-item *ngFor="let player of (results | async)" button (click)="item_clicked(player.substring(0,6))">
+      <ion-item *ngFor="let player of (results | async)" button (click)="item_clicked(player.substring(0,7))">
         <ion-label>
           <h2><b>{{player.split("|")[2]}} {{player.split("|")[1]}}</b></h2>
           <h3>Team: {{player.split("|")[11]}}</h3>

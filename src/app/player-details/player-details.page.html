@@ -8,5 +8,118 @@
 </ion-header>
 
 <ion-content>
+  <div *ngIf="playerData">
+    <ion-card *ngIf="playerData">
+      <ion-card-header>
+        <ion-card-title>
+          {{playerData[0].fullName}} | #{{playerData[0].primaryNumber}}
+        </ion-card-title>
+        <ion-card-subtitle>
+          {{playerData[0].primaryPosition.name}} | {{playerData[0].height}} | {{playerData[0].weight}} lb | Age:
+          {{playerData[0].currentAge}} | {{playerData[0].currentTeam.name}}
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label>Born: {{playerData[0].birthDate}}</ion-label><br>
+        <ion-label>Birthplace: {{playerData[0].birthCity}}, {{playerData[0].birthStateProvince}},
+          {{playerData[0].birthCountry}} </ion-label><br>
+        <ion-label>Nationality: {{playerData[0].nationality}}</ion-label><br>
+        <ion-label *ngIf="playerData[0].primaryPosition.type === 'Forward'">Shoots: {{playerData[0].shootsCatches}}
+        </ion-label>
+        <ion-label *ngIf="playerData[0].primaryPosition.type === 'Goalie'">Catches: {{playerData[0].shootsCatches}}
+        </ion-label>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="playerData[0].primaryPosition.type === 'Forward'">
+      <ion-card-header>
+        <ion-card-subtitle>Regular Season</ion-card-subtitle>
+        <ion-card-title>Career Totals</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>Games</ion-col>
+            <ion-col>Goals</ion-col>
+            <ion-col>Assists</ion-col>
+            <ion-col>Points</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.games}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.goals}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.assists}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.points}}</ion-col>
+          </ion-row>
+          <br>
+          <ion-row>
+            <ion-col>PIM</ion-col>
+            <ion-col>+/-</ion-col>
+            <ion-col>Hits</ion-col>
+            <ion-col>Shot %</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.penaltyMinutes}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.plusMinus}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.hits}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.shotPct}}%</ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-button color="medium">View All Stats</ion-button>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
+      <ion-card-header>
+        <ion-card-subtitle>Regular Season</ion-card-subtitle>
+        <ion-card-title>Career Totals</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>Games</ion-col>
+            <ion-col>Wins</ion-col>
+            <ion-col>Losses</ion-col>
+            <ion-col>Save %</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.games}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.wins}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.losses}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.savePercentage.toFixed(3)}}</ion-col>
+          </ion-row>
+          <br>
+          <ion-row>
+            <ion-col>Games Started</ion-col>
+            <ion-col>GAA</ion-col>
+            <ion-col>Shutouts</ion-col>
+            <ion-col>Minutes Played</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.gamesStarted}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.goalAgainstAverage.toFixed(2)}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.shutouts}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.timeOnIce}}</ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-button color="medium">View All Stats</ion-button>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Season-By-Season</ion-card-subtitle>
+        <ion-card-title>Yearly Totals</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-button color="medium" expand="block">Regular Season</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button color="medium" expand="block">Playoffs</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
 
+  </div>
 </ion-content>
