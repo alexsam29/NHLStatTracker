@@ -63,7 +63,8 @@
             <ion-col>{{playerData[0].stats[2].splits[0].stat.shotPct}}%</ion-col>
           </ion-row>
         </ion-grid>
-        <ion-button color="medium">View All Stats</ion-button>
+        <ion-button color="medium" button (click)="button_clicked(playerData[0].id, 'career')">View All Stats
+        </ion-button>
       </ion-card-content>
     </ion-card>
     <ion-card *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
@@ -99,27 +100,100 @@
             <ion-col>{{playerData[0].stats[2].splits[0].stat.timeOnIce}}</ion-col>
           </ion-row>
         </ion-grid>
-        <ion-button color="medium">View All Stats</ion-button>
+        <ion-button color="medium" button (click)="button_clicked(playerData[0].id, 'career')">View All Stats
+        </ion-button>
       </ion-card-content>
     </ion-card>
     <ion-card>
       <ion-card-header>
-        <ion-card-subtitle>Season-By-Season</ion-card-subtitle>
-        <ion-card-title>Yearly Totals</ion-card-title>
+        <ion-card-subtitle>Season: {{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length -
+          1].season.substring(0,4)}} / {{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length -
+          1].season.substring(4,8)}}
+        </ion-card-subtitle>
+        <ion-card-title>Current Totals</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <ion-grid>
+        <ion-grid *ngIf="playerData[0].primaryPosition.type === 'Forward'">
+          <ion-row>
+            <ion-col>Games</ion-col>
+            <ion-col>Goals</ion-col>
+            <ion-col>Assists</ion-col>
+            <ion-col>Points</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.games}}</ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.goals}}</ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.assists}}</ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.points}}</ion-col>
+          </ion-row>
+          <br>
+          <ion-row>
+            <ion-col>PIM</ion-col>
+            <ion-col>+/-</ion-col>
+            <ion-col>Hits</ion-col>
+            <ion-col>Shot %</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.penaltyMinutes}}
+            </ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.plusMinus}}
+            </ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.hits}}</ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.shotPct}}%</ion-col>
+          </ion-row>
           <ion-row>
             <ion-col>
-              <ion-button color="medium" expand="block">Regular Season</ion-button>
+              <ion-button color="medium" expand="block" button (click)="button_clicked(playerData[0].id, 'season')">
+                All SeasonS</ion-button>
             </ion-col>
             <ion-col>
-              <ion-button color="medium" expand="block">Playoffs</ion-button>
+              <ion-button color="medium" expand="block" button (click)="button_clicked(playerData[0].id, 'playoffs')">
+                Playoffs</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
+          <ion-row>
+            <ion-col>Games</ion-col>
+            <ion-col>Wins</ion-col>
+            <ion-col>Losses</ion-col>
+            <ion-col>Save %</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.games}}</ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.wins}}</ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.losses}}</ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length -
+              1].stat.savePercentage.toFixed(3)}}</ion-col>
+          </ion-row>
+          <br>
+          <ion-row>
+            <ion-col>Games Started</ion-col>
+            <ion-col>GAA</ion-col>
+            <ion-col>Shutouts</ion-col>
+            <ion-col>Minutes Played</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.gamesStarted}}
+            </ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length -
+              1].stat.goalAgainstAverage.toFixed(2)}}</ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.shutouts}}</ion-col>
+            <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.timeOnIce}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button color="medium" expand="block" button (click)="button_clicked(playerData[0].id, 'season')">
+                All SeasonS</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button color="medium" expand="block" button (click)="button_clicked(playerData[0].id, 'playoffs')">
+                Playoffs</ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
     </ion-card>
-
   </div>
 </ion-content>
