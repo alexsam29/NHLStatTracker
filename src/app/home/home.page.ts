@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PlayerSearchService } from '../services/player-search.service';
 
@@ -11,10 +12,15 @@ import { PlayerSearchService } from '../services/player-search.service';
 export class HomePage {
 
   results: Observable<any>;
+  playerName: string = '';
 
-  constructor(private playerSearch: PlayerSearchService) {}
+  constructor(private playerSearch: PlayerSearchService, private router: Router) {}
 
-  onSubmit(form: NgForm){
-    this.results = this.playerSearch.searchData(form.value.playerName);
+  searchChanged(){
+    this.results = this.playerSearch.searchData(this.playerName);
+  }
+
+  item_clicked(playerID: string){
+    this.router.navigate(['/player-details', { id: playerID }]);
   }
 }

@@ -14,26 +14,11 @@
   </ion-header>
 
   <div id="container">
-    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label position="stacked">Player Search:</ion-label>
-              <ion-input [clearInput]="true" placeholder="Enter a player's name" ngModel required minlength="1"
-                name="playerName"></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-button [disabled]="restockBtnDisabled" type="submit" color="primary" expand="block">Search
-            </ion-button>
-            <ion-button (click)="goBack()" color="tertiary" expand="block">View Favourites</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </form>
+    <ion-item>
+      <ion-label position="stacked">Player Search:</ion-label>
+      <ion-searchbar [(ngModel)]="playerName" (ionChange)="searchChanged($event)" placeholder="Search for a player..."></ion-searchbar>
+    </ion-item>
+    <ion-button (click)="goBack()" color="tertiary" expand="block">View Favourites</ion-button>
     <ion-list>
       <ion-list-header>
         <h2>Results:</h2>
