@@ -30,12 +30,12 @@
         </ion-label>
       </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="playerData[0].primaryPosition.type === 'Forward'">
+    <ion-card>
       <ion-card-header>
         <ion-card-subtitle>Regular Season</ion-card-subtitle>
         <ion-card-title>Career Totals</ion-card-title>
       </ion-card-header>
-      <ion-card-content>
+      <ion-card-content *ngIf="playerData[0].primaryPosition.type === 'Forward'">
         <ion-grid>
           <ion-row>
             <ion-col>Games</ion-col>
@@ -66,13 +66,7 @@
         <ion-button color="medium" button (click)="button_clicked(playerData[0].id, 'career')">View All Stats
         </ion-button>
       </ion-card-content>
-    </ion-card>
-    <ion-card *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
-      <ion-card-header>
-        <ion-card-subtitle>Regular Season</ion-card-subtitle>
-        <ion-card-title>Career Totals</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
+      <ion-card-content *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
         <ion-grid>
           <ion-row>
             <ion-col>Games</ion-col>
