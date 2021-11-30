@@ -4,19 +4,22 @@
     <ion-title *ngIf="stat === 'season'"> Yearly Season Stats</ion-title>
     <ion-title *ngIf="stat === 'playoffs'"> Playoff Statistics</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button text="Player Details"></ion-back-button>
+      <ion-back-button text="Player"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<!-- CAREER STATS -->
+<ion-content *ngIf="stat === 'career'">
   <div *ngIf="playerData">
     <ion-card>
       <ion-card-header>
-        <ion-card-subtitle>Total Seasons: {{playerData[0].stats[0].splits.length}}</ion-card-subtitle>
         <ion-card-title>Career Summary</ion-card-title>
       </ion-card-header>
-      <ion-card-content *ngIf="playerData[0].primaryPosition.type === 'Forward'">
+
+      <!-- PLAYER STATS -->
+      <ion-card-content
+        *ngIf="playerData[0].primaryPosition.type === 'Forward' || playerData[0].primaryPosition.type === 'Defenseman'">
         <ion-grid>
           <ion-row>
             <ion-col>Games</ion-col>
@@ -71,41 +74,58 @@
           </ion-row>
         </ion-grid>
       </ion-card-content>
+
+      <!-- GOALIE STATS -->
       <ion-card-content *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
         <ion-grid>
           <ion-row>
             <ion-col>Games</ion-col>
             <ion-col>Wins</ion-col>
             <ion-col>Losses</ion-col>
-            <ion-col>Save %</ion-col>
+            <ion-col>OTL</ion-col>
           </ion-row>
           <ion-row>
             <ion-col>{{playerData[0].stats[2].splits[0].stat.games}}</ion-col>
             <ion-col>{{playerData[0].stats[2].splits[0].stat.wins}}</ion-col>
             <ion-col>{{playerData[0].stats[2].splits[0].stat.losses}}</ion-col>
-            <ion-col>{{playerData[0].stats[2].splits[0].stat.savePercentage.toFixed(3)}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.ot}}</ion-col>
           </ion-row>
           <br>
           <ion-row>
-            <ion-col>Games Started</ion-col>
+            <ion-col>GS</ion-col>
+            <ion-col>Save %</ion-col>
             <ion-col>GAA</ion-col>
             <ion-col>Shutouts</ion-col>
-            <ion-col>Minutes Played</ion-col>
           </ion-row>
           <ion-row>
             <ion-col>{{playerData[0].stats[2].splits[0].stat.gamesStarted}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.savePercentage.toFixed(3)}}</ion-col>
             <ion-col>{{playerData[0].stats[2].splits[0].stat.goalAgainstAverage.toFixed(2)}}</ion-col>
             <ion-col>{{playerData[0].stats[2].splits[0].stat.shutouts}}</ion-col>
-            <ion-col>{{playerData[0].stats[2].splits[0].stat.timeOnIce}}</ion-col>
+          </ion-row>
+          <br>
+          <ion-row>
+            <ion-col>SA</ion-col>
+            <ion-col>GA</ion-col>
+            <ion-col>PP Save %</ion-col>
+            <ion-col>SH Save %</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.shotsAgainst}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.goalsAgainst}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.powerPlaySavePercentage.toFixed(3)}}</ion-col>
+            <ion-col>{{playerData[0].stats[2].splits[0].stat.shortHandedSavePercentage.toFixed(3)}}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
     </ion-card>
+
     <ion-card>
       <ion-card-header>
         <ion-card-subtitle>Abbrevations</ion-card-subtitle>
       </ion-card-header>
-      <ion-card-content>
+      <ion-card-content
+        *ngIf="playerData[0].primaryPosition.type === 'Forward' || playerData[0].primaryPosition.type === 'Defenseman'">
         <ion-grid>
           <ion-row>PIM = Penalty in minutes</ion-row>
           <ion-row>+/- = Plus / Minus</ion-row>
@@ -117,6 +137,270 @@
           <ion-row>SHP = Short-handed Points</ion-row>
         </ion-grid>
       </ion-card-content>
+      <ion-card-content *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
+        <ion-grid>
+          <ion-row>GS = Games Started</ion-row>
+          <ion-row>GAA = Goals Against Average</ion-row>
+          <ion-row>SA = Shots Against</ion-row>
+          <ion-row>GA = Goals Against</ion-row>
+          <ion-row>PP Save % = Powerplay Save Percentage</ion-row>
+          <ion-row>SH Save % = Short-handed Save Percentage</ion-row>
+        </ion-grid>
+      </ion-card-content>
     </ion-card>
+  </div>
+</ion-content>
+
+<!-- SEASON STATS -->
+<ion-content *ngIf="stat === 'season'">
+  <div *ngIf="playerData">
+    <ion-list>
+      <ion-card *ngFor="let season of playerData[0].stats[0].splits">
+        <ion-card-header>
+          <ion-card-subtitle>{{season.league.name}}</ion-card-subtitle>
+          <ion-card-subtitle>{{season.team.name}}</ion-card-subtitle>
+          <ion-card-title>{{season.season.substring(0,4)}} - {{season.season.substring(4,8)}}</ion-card-title>
+        </ion-card-header>
+
+        <!-- PLAYER STATS -->
+        <ion-card-content
+          *ngIf="playerData[0].primaryPosition.type === 'Forward' || playerData[0].primaryPosition.type === 'Defenseman'">
+          <ion-grid>
+            <ng-template #elseBlock>
+              <ion-col>-</ion-col>
+            </ng-template>
+            <ion-row>
+              <ion-col>Games</ion-col>
+              <ion-col>Goals</ion-col>
+              <ion-col>Assists</ion-col>
+              <ion-col>Points</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.games; else elseBlock">{{season.stat.games}}</ion-col>
+              <ion-col *ngIf="season.stat.goals; else elseBlock">{{season.stat.goals}}</ion-col>
+              <ion-col *ngIf="season.stat.assists; else elseBlock">{{season.stat.assists}}</ion-col>
+              <ion-col *ngIf="season.stat.points; else elseBlock">{{season.stat.points}}</ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col>PIM</ion-col>
+              <ion-col>+/-</ion-col>
+              <ion-col>Hits</ion-col>
+              <ion-col>Shot %</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.penaltyMinutes; else elseBlock">{{season.stat.penaltyMinutes}}</ion-col>
+              <ion-col *ngIf="season.stat.plusMinus; else elseBlock">{{season.stat.plusMinus}}</ion-col>
+              <ion-col *ngIf="season.stat.hits; else elseBlock">{{season.stat.hits}}</ion-col>
+              <ion-col *ngIf="season.stat.shotPct; else elseBlock">{{season.stat.shotPct}}%</ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col>PPG</ion-col>
+              <ion-col>PPP</ion-col>
+              <ion-col>GWG</ion-col>
+              <ion-col>Faceoff %</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.powerPlayGoals; else elseBlock">{{season.stat.powerPlayGoals}}</ion-col>
+              <ion-col *ngIf="season.stat.powerPlayPoints; else elseBlock">{{season.stat.powerPlayPoints}}</ion-col>
+              <ion-col *ngIf="season.stat.gameWinningGoals; else elseBlock">{{season.stat.gameWinningGoals}}</ion-col>
+              <ion-col *ngIf="season.stat.faceOffPct; else elseBlock">{{season.stat.faceOffPct}}%</ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col>OTG</ion-col>
+              <ion-col>SHG</ion-col>
+              <ion-col>SHP</ion-col>
+              <ion-col>Shot Blocks</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.overTimeGoals; else elseBlock">{{season.stat.overTimeGoals}}</ion-col>
+              <ion-col *ngIf="season.stat.shortHandedGoals; else elseBlock">{{season.stat.shortHandedGoals}}</ion-col>
+              <ion-col *ngIf="season.stat.shortHandedPoints; else elseBlock">{{season.stat.shortHandedPoints}}</ion-col>
+              <ion-col *ngIf="season.stat.blocked; else elseBlock">{{season.stat.blocked}}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+
+        <!-- GOALIE STATS -->
+        <ion-card-content *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
+          <ion-grid>
+            <ng-template #elseBlock>
+              <ion-col>-</ion-col>
+            </ng-template>
+            <ion-row>
+              <ion-col>Games</ion-col>
+              <ion-col>Wins</ion-col>
+              <ion-col>Losses</ion-col>
+              <ion-col>OTL</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.games; else elseBlock">{{season.stat.games}}</ion-col>
+              <ion-col *ngIf="season.stat.wins; else elseBlock">{{season.stat.wins}}</ion-col>
+              <ion-col *ngIf="season.stat.losses; else elseBlock">{{season.stat.losses}}</ion-col>
+              <ion-col *ngIf="season.stat.ot; else elseBlock">{{season.stat.ot}}</ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col>GS</ion-col>
+              <ion-col>Save %</ion-col>
+              <ion-col>GAA</ion-col>
+              <ion-col>Shutouts</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.gamesStarted; else elseBlock">{{season.stat.gamesStarted}}</ion-col>
+              <ion-col *ngIf="season.stat.savePercentage; else elseBlock">{{season.stat.savePercentage.toFixed(3)}}
+              </ion-col>
+              <ion-col *ngIf="season.stat.goalsAgainst; else elseBlock">{{season.stat.goalAgainstAverage.toFixed(2)}}
+              </ion-col>
+              <ion-col *ngIf="season.stat.shutouts; else elseBlock">{{season.stat.shutouts}}</ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col>SA</ion-col>
+              <ion-col>GA</ion-col>
+              <ion-col>PP Save %</ion-col>
+              <ion-col>SH Save %</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.shotsAgainst; else elseBlock">{{season.stat.shotsAgainst}}</ion-col>
+              <ion-col *ngIf="season.stat.goalsAgainst; else elseBlock">{{season.stat.goalsAgainst}}</ion-col>
+              <ion-col *ngIf="season.stat.powerPlaySavePercentage; else elseBlock">
+                {{season.stat.powerPlaySavePercentage.toFixed(2)}}</ion-col>
+              <ion-col *ngIf="season.stat.shortHandedSavePercentage; else elseBlock">
+                {{season.stat.shortHandedSavePercentage.toFixed(2)}}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
+</ion-content>
+
+<!-- PLAYOFF STATS -->
+<ion-content *ngIf="stat === 'playoffs'">
+  <div *ngIf="playerData">
+    <ion-list>
+      <ion-card *ngFor="let season of playerData[0].stats[1].splits">
+        <ion-card-header>
+          <ion-card-subtitle>{{season.league.name}}</ion-card-subtitle>
+          <ion-card-subtitle>{{season.team.name}}</ion-card-subtitle>
+          <ion-card-title>{{season.season.substring(0,4)}} - {{season.season.substring(4,8)}}</ion-card-title>
+        </ion-card-header>
+
+        <!-- PLAYER STATS -->
+        <ion-card-content
+          *ngIf="playerData[0].primaryPosition.type === 'Forward' || playerData[0].primaryPosition.type === 'Defenseman'">
+          <ion-grid>
+            <ng-template #elseBlock>
+              <ion-col>-</ion-col>
+            </ng-template>
+            <ion-row>
+              <ion-col>Games</ion-col>
+              <ion-col>Goals</ion-col>
+              <ion-col>Assists</ion-col>
+              <ion-col>Points</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.games; else elseBlock">{{season.stat.games}}</ion-col>
+              <ion-col *ngIf="season.stat.goals; else elseBlock">{{season.stat.goals}}</ion-col>
+              <ion-col *ngIf="season.stat.assists; else elseBlock">{{season.stat.assists}}</ion-col>
+              <ion-col *ngIf="season.stat.points; else elseBlock">{{season.stat.points}}</ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col>PIM</ion-col>
+              <ion-col>+/-</ion-col>
+              <ion-col>Hits</ion-col>
+              <ion-col>Shot %</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.penaltyMinutes; else elseBlock">{{season.stat.penaltyMinutes}}</ion-col>
+              <ion-col *ngIf="season.stat.plusMinus; else elseBlock">{{season.stat.plusMinus}}</ion-col>
+              <ion-col *ngIf="season.stat.hits; else elseBlock">{{season.stat.hits}}</ion-col>
+              <ion-col *ngIf="season.stat.shotPct; else elseBlock">{{season.stat.shotPct}}%</ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col>PPG</ion-col>
+              <ion-col>PPP</ion-col>
+              <ion-col>GWG</ion-col>
+              <ion-col>Faceoff %</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.powerPlayGoals; else elseBlock">{{season.stat.powerPlayGoals}}</ion-col>
+              <ion-col *ngIf="season.stat.powerPlayPoints; else elseBlock">{{season.stat.powerPlayPoints}}</ion-col>
+              <ion-col *ngIf="season.stat.gameWinningGoals; else elseBlock">{{season.stat.gameWinningGoals}}</ion-col>
+              <ion-col *ngIf="season.stat.faceOffPct; else elseBlock">{{season.stat.faceOffPct}}%</ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col>OTG</ion-col>
+              <ion-col>SHG</ion-col>
+              <ion-col>SHP</ion-col>
+              <ion-col>Shot Blocks</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.overTimeGoals; else elseBlock">{{season.stat.overTimeGoals}}</ion-col>
+              <ion-col *ngIf="season.stat.shortHandedGoals; else elseBlock">{{season.stat.shortHandedGoals}}</ion-col>
+              <ion-col *ngIf="season.stat.shortHandedPoints; else elseBlock">{{season.stat.shortHandedPoints}}</ion-col>
+              <ion-col *ngIf="season.stat.blocked; else elseBlock">{{season.stat.blocked}}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+
+        <!-- GOALIE STATS -->
+        <ion-card-content *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
+          <ion-grid>
+            <ng-template #elseBlock>
+              <ion-col>-</ion-col>
+            </ng-template>
+            <ion-row>
+              <ion-col>Games</ion-col>
+              <ion-col>Wins</ion-col>
+              <ion-col>Losses</ion-col>
+              <ion-col>OTL</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.games; else elseBlock">{{season.stat.games}}</ion-col>
+              <ion-col *ngIf="season.stat.wins; else elseBlock">{{season.stat.wins}}</ion-col>
+              <ion-col *ngIf="season.stat.losses; else elseBlock">{{season.stat.losses}}</ion-col>
+              <ion-col *ngIf="season.stat.ot; else elseBlock">{{season.stat.ot}}</ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col>GS</ion-col>
+              <ion-col>Save %</ion-col>
+              <ion-col>GAA</ion-col>
+              <ion-col>Shutouts</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.gamesStarted; else elseBlock">{{season.stat.gamesStarted}}</ion-col>
+              <ion-col *ngIf="season.stat.savePercentage; else elseBlock">{{season.stat.savePercentage.toFixed(3)}}
+              </ion-col>
+              <ion-col *ngIf="season.stat.goalsAgainst; else elseBlock">{{season.stat.goalAgainstAverage.toFixed(2)}}
+              </ion-col>
+              <ion-col *ngIf="season.stat.shutouts; else elseBlock">{{season.stat.shutouts}}</ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+              <ion-col>SA</ion-col>
+              <ion-col>GA</ion-col>
+              <ion-col>PP Save %</ion-col>
+              <ion-col>SH Save %</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col *ngIf="season.stat.shotsAgainst; else elseBlock">{{season.stat.shotsAgainst}}</ion-col>
+              <ion-col *ngIf="season.stat.goalsAgainst; else elseBlock">{{season.stat.goalsAgainst}}</ion-col>
+              <ion-col *ngIf="season.stat.powerPlaySavePercentage; else elseBlock">
+                {{season.stat.powerPlaySavePercentage.toFixed(2)}}</ion-col>
+              <ion-col *ngIf="season.stat.shortHandedSavePercentage; else elseBlock">
+                {{season.stat.shortHandedSavePercentage.toFixed(2)}}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
   </div>
 </ion-content>
