@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Favourites</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="Home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="players">
+    <ion-list>
+      <ion-list-header>
+        <h2>Results:</h2>
+      </ion-list-header>
+      <ion-item *ngFor="let playerData of players" button (click)="item_clicked(player.substring(0,7))">
+        <ion-label>{{playerData[0].fullName}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

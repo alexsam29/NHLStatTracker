@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { DbService } from '../services/db.service';
 import { PlayerService } from '../services/player.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class PlayerDetailsPage implements OnInit {
   constructor(
     private playerService: PlayerService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private db: DbService
   ) {}
 
   ngOnInit() {
@@ -26,5 +28,10 @@ export class PlayerDetailsPage implements OnInit {
 
   button_clicked(playerID: string, statType: string) {
     this.router.navigate(['/statistics', { id: playerID, stat: statType }]);
+  }
+
+  fav_clicked(id: string){
+    console.log(id);
+    this.db.addPlayer(parseInt(id));
   }
 }

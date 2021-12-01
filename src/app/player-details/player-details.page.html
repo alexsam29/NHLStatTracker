@@ -9,8 +9,7 @@
 
 <ion-content>
   <div *ngIf="playerData">
-
-    <ion-card *ngIf="playerData">
+    <ion-card>
       <ion-card-header>
         <ion-card-title>
           {{playerData[0].fullName}} | #{{playerData[0].primaryNumber}}
@@ -39,6 +38,7 @@
         <ion-card-title>Career Totals</ion-card-title>
       </ion-card-header>
 
+      <!-- PLAYER STATS -->
       <ion-card-content *ngIf="playerData[0].primaryPosition.type === 'Forward' || playerData[0].primaryPosition.type === 'Defenseman'">
         <ion-grid>
           <ion-row>
@@ -71,6 +71,7 @@
         </ion-button>
       </ion-card-content>
 
+      <!-- GOALIE STATS -->
       <ion-card-content *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
         <ion-grid>
           <ion-row>
@@ -115,6 +116,7 @@
       </ion-card-header>
       <ion-card-content>
 
+        <!-- PLAYER STATS -->
         <ion-grid *ngIf="playerData[0].primaryPosition.type === 'Forward' || playerData[0].primaryPosition.type === 'Defenseman'">
           <ion-row>
             <ion-col>Games</ion-col>
@@ -155,6 +157,7 @@
           </ion-row>
         </ion-grid>
 
+        <!-- GOALIE STATS -->
         <ion-grid *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
           <ion-row>
             <ion-col>Games</ion-col>
@@ -199,5 +202,15 @@
         </ion-grid>
       </ion-card-content>
     </ion-card>
+    <ion-button button (click)="fav_clicked(playerData[0].id)"> Add to Favourites
+    </ion-button>
   </div>
 </ion-content>
+<ion-footer [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button button (click)="fav_clicked(playerData[0].id)"> Add to Favourites
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

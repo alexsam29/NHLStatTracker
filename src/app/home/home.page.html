@@ -18,7 +18,6 @@
       <ion-label position="stacked">Player Search:</ion-label>
       <ion-searchbar [(ngModel)]="playerName" (ionChange)="searchChanged($event)" placeholder="Search for a player..."></ion-searchbar>
     </ion-item>
-    <ion-button (click)="goBack()" color="tertiary" expand="block">View Favourites</ion-button>
     <ion-list>
       <ion-list-header>
         <h2>Results:</h2>
@@ -40,9 +39,12 @@
 </ion-content>
 <ion-footer [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button [routerLink]="['/player-details']">Session History
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/player-details']" color="secondary">Session History
       </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/favourites']">View Favourites</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
