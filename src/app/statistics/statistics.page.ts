@@ -25,6 +25,4 @@ export class StatisticsPage implements OnInit {
       .playerData(this.playerID)
       .subscribe((data) => (this.playerData = data));
   }
-
-  toggleCollapse() {}
 }
