@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PlayerSearchService } from '../services/player-search.service';
+import { PlayerService } from '../services/player.service';
 
 @Component({
   selector: 'app-home',
@@ -10,17 +10,37 @@ import { PlayerSearchService } from '../services/player-search.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
   results: Observable<any>;
   playerName: string = '';
+  isLoading: boolean = false;
+  listHeader: string = 'Start Searching!';
+  noResults: boolean = false;
 
-  constructor(private playerSearch: PlayerSearchService, private router: Router) {}
+  constructor(
+    private playerSearch: PlayerSearchService,
+    private router: Router,
+    private playerService: PlayerService
+  ) {}
 
-  searchChanged(){
-    this.results = this.playerSearch.searchData(this.playerName);
+  searchChanged() {
+    this.listHeader = 'Results';
+    this.isLoading = true;
+
+    if (this.playerName == '') {
+      this.results = null;
+      this.isLoading = false;
+      this.noResults = true;
+      return;
+    }
+    this.playerSearch.searchData(this.playerName).subscribe((players) => {
+      this.results = players;
+      this.isLoading = false;
+      this.noResults = false;
+    });
   }
 
-  item_clicked(playerID: string){
+  item_clicked(playerID: string) {
+    this.playerService.addToHistory(playerID);
     this.router.navigate(['/player-details', { id: playerID }]);
   }
 }

@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Favourites</ion-title>
+    <ion-title>History</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button text="Home"></ion-back-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="deleteAll()" color="danger">Delete All <ion-icon name="trash"></ion-icon>
+      <ion-button (click)="addAll()" >Add All <ion-icon name="add"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -65,9 +65,9 @@
           <ion-button fill="outline" button (click)="card_clicked(playerData[0].id)">
             <ion-icon slot="end" name="information-circle"></ion-icon>Details
           </ion-button>
-          <ion-button fill="outline" color="danger" button
-            (click)="remove_clicked(playerData[0].id, playerData[0].fullName, playerData)">
-            <ion-icon name="trash"></ion-icon>
+          <ion-button fill="outline" color="success" *ngIf="!playerIDs.includes(playerData[0].id)" button
+            (click)="fav_clicked(playerData[0].id, playerData[0].fullName)">
+            <ion-icon name="add-circle"></ion-icon>
           </ion-button>
         </ion-card-content>
       </ion-card>

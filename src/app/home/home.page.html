@@ -16,35 +16,42 @@
   <div id="container">
     <ion-item>
       <ion-label position="stacked">Player Search:</ion-label>
-      <ion-searchbar [(ngModel)]="playerName" (ionChange)="searchChanged($event)" placeholder="Search for a player..."></ion-searchbar>
+      <ion-searchbar [(ngModel)]="playerName" (ionChange)="searchChanged()" placeholder="Search for a player...">
+      </ion-searchbar>
     </ion-item>
     <ion-list>
       <ion-list-header>
-        <h2>Results:</h2>
+        <h2>{{listHeader}}</h2>
       </ion-list-header>
-      <ion-item *ngFor="let player of (results | async)" button (click)="item_clicked(player.substring(0,7))">
-        <ion-label>
-          <h2><b>{{player.split("|")[2]}} {{player.split("|")[1]}}</b></h2>
-          <h3>Team: {{player.split("|")[11]}}</h3>
-          <h3>Postion: {{player.split("|")[12]}}</h3>
-          <h3>Number: #{{player.split("|")[13]}}</h3>
-        </ion-label>
-        <ion-label>
-          <p>From: {{player.split("|")[7]}}, {{player.split("|")[8]}}</p>
-          <p>Country: {{player.split("|")[9]}}</p>
-        </ion-label>
-      </ion-item>
+      <div *ngIf="!isLoading">
+        <ion-item *ngIf="noResults"> No Results</ion-item>
+        <ion-item *ngFor="let player of results" button (click)="item_clicked(player.substring(0,7))">
+          <ion-label>
+            <h2><b>{{player.split("|")[2]}} {{player.split("|")[1]}}</b></h2>
+            <h3>Team: {{player.split("|")[11]}}</h3>
+            <h3>Postion: {{player.split("|")[12]}}</h3>
+            <h3>Number: #{{player.split("|")[13]}}</h3>
+          </ion-label>
+          <ion-label>
+            <p>From: {{player.split("|")[7]}}, {{player.split("|")[8]}}</p>
+            <p>Country: {{player.split("|")[9]}}</p>
+          </ion-label>
+        </ion-item>
+      </div>
     </ion-list>
+    <div class="ion-text-center" *ngIf="isLoading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
   </div>
 </ion-content>
 <ion-footer [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button [routerLink]="['/player-details']" color="secondary">Session History
+      <ion-button [routerLink]="['/history']" color="secondary">Session History
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button [routerLink]="['/favourites']">View Favourites</ion-button>
+      <ion-button [routerLink]="['/favourites']" color="primary"><ion-icon slot="start" name="star"></ion-icon> Favourites</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

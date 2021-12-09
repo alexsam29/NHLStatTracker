@@ -22,7 +22,9 @@ export class PlayerService {
   }
 
   addToHistory(id: string){
-    this.history.push(id);
+    if(!this.history.includes(id)){
+      this.history.push(id);
+    }
   }
 
   getHistory(){

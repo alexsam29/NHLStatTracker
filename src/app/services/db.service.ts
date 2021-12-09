@@ -69,4 +69,10 @@ export class DbService {
       this.loadPlayerss();
     }).catch(e=>console.log(e));
   }
+
+  deleteAllPlayers(){
+    return this.databaseObj.executeSql(`DELETE FROM PLAYERS`, []).then(res => {
+      this.loadPlayerss();
+    }).catch(e=>console.log(e));
+  }
 }
