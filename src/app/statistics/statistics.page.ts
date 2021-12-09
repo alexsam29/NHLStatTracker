@@ -12,7 +12,6 @@ export class StatisticsPage implements OnInit {
   playerID: string;
   stat: string;
   playerData: Observable<any>;
-  isCardCollapse: number = 0;
   constructor(
     private playerService: PlayerService,
     private route: ActivatedRoute

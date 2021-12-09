@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="players else elseBlock">
+  <div *ngIf="players">
     <ion-list>
       <ion-list-header>
         <h2>{{listHeader}}</h2>
@@ -28,7 +28,7 @@
           <ion-label> Current Season: {{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length -
             1].season.substring(0,4)}} / {{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length -
             1].season.substring(4,8)}}</ion-label>
-            
+
           <!-- PLAYER STATS -->
           <ion-grid
             *ngIf="playerData[0].primaryPosition.type === 'Forward' || playerData[0].primaryPosition.type === 'Defenseman'">
@@ -74,12 +74,4 @@
       </ion-card>
     </ion-list>
   </div>
-  <ng-template #elseBlock>
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>No players in your favourites!</ion-card-title>
-        <ion-card-subtitle>Start searching for players.</ion-card-subtitle>
-      </ion-card-header>
-    </ion-card>
-  </ng-template>
 </ion-content>
