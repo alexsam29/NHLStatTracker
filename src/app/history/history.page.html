@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>History</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="addAll()">Add All <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="players else elseBlock">
+    <ion-list>
+      <ion-list-header>
+        <h2>{{listHeader}}</h2>
+      </ion-list-header>
+      <ion-card *ngFor="let playerData of players">
+        <ion-card-header>
+          <ion-card-subtitle>{{playerData[0].currentTeam.name}}</ion-card-subtitle>
+          <ion-card-title>{{playerData[0].fullName}} | #{{playerData[0].primaryNumber}}</ion-card-title>
+          <ion-card-subtitle>{{playerData[0].primaryPosition.name}} </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+
+          <ion-label> Current Season: {{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length -
+            1].season.substring(0,4)}} / {{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length -
+            1].season.substring(4,8)}}</ion-label>
+
+          <!-- PLAYER STATS -->
+          <ion-grid
+            *ngIf="playerData[0].primaryPosition.type === 'Forward' || playerData[0].primaryPosition.type === 'Defenseman'">
+            <ion-row>
+              <ion-col>Games</ion-col>
+              <ion-col>Goals</ion-col>
+              <ion-col>Assists</ion-col>
+              <ion-col>Points</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.games}}</ion-col>
+              <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.goals}}</ion-col>
+              <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.assists}}
+              </ion-col>
+              <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.points}}</ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <!-- GOALIE STATS -->
+          <ion-grid *ngIf="playerData[0].primaryPosition.type === 'Goalie'">
+            <ion-row>
+              <ion-col>Games</ion-col>
+              <ion-col>Wins</ion-col>
+              <ion-col>Losses</ion-col>
+              <ion-col>OTL</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.games}}</ion-col>
+              <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.wins}}</ion-col>
+              <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length - 1].stat.losses}}</ion-col>
+              <ion-col>{{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length -
+                1].stat.ot}}</ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-button fill="outline" button (click)="card_clicked(playerData[0].id)">
+            <ion-icon slot="end" name="information-circle"></ion-icon>Details
+          </ion-button>
+          <ion-button fill="outline" color="success" *ngIf="!playerIDs.includes(playerData[0].id)" button
+            (click)="fav_clicked(playerData[0].id, playerData[0].fullName)">
+            <ion-icon name="add-circle"></ion-icon>
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
+  <ng-template #elseBlock>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>No players in your favourites!</ion-card-title>
+        <ion-card-subtitle>Start searching for players.</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+  </ng-template>
+</ion-content>

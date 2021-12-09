@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      NHL Stat Tracker
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +9,54 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">NHL Stat Tracker</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-item>
+      <ion-label position="stacked">Player Search:</ion-label>
+      <ion-searchbar [(ngModel)]="playerName" (ionChange)="searchChanged()" placeholder="Search for a player...">
+      </ion-searchbar>
+    </ion-item>
+    <ion-list>
+      <ion-list-header>
+        <h2>{{listHeader}}</h2>
+      </ion-list-header>
+      <div *ngIf="!isLoading">
+        <ion-item *ngIf="noResults"> No Results</ion-item>
+        <ion-item *ngFor="let player of results" button (click)="item_clicked(player.substring(0,7))">
+          <ion-label>
+            <h2><b>{{player.split("|")[2]}} {{player.split("|")[1]}}</b></h2>
+            <h3>Team: {{player.split("|")[11]}}</h3>
+            <h3>Postion: {{player.split("|")[12]}}</h3>
+            <h3 *ngIf="player.split('|')[13]">Number: #{{player.split("|")[13]}}</h3>
+          </ion-label>
+          <ion-label>
+            <p *ngIf="player.split('|')[8]; else elseBlock">From: {{player.split("|")[7]}}, {{player.split("|")[8]}}</p>
+            <ng-template #elseBlock>
+              <p>From: {{player.split("|")[7]}}</p>
+            </ng-template>
+            <p>Country: {{player.split("|")[9]}}</p>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-list>
+    <div class="ion-text-center" *ngIf="isLoading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
   </div>
 </ion-content>
+<ion-footer [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/history']" color="secondary">Session History
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/favourites']" color="primary">
+        <ion-icon slot="start" name="star"></ion-icon> Favourites
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
