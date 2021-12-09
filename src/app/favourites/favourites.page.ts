@@ -13,7 +13,7 @@ import { PlayerService } from '../services/player.service';
 export class FavouritesPage implements OnInit {
   playerIDs: string[];
   players: Observable<any>[];
-  listHeader: string = "No players in Favourites";
+  listHeader: string = 'No players in Favourites';
 
   constructor(
     private playerService: PlayerService,
@@ -27,11 +27,10 @@ export class FavouritesPage implements OnInit {
       if (rdy) {
         this.db.getPlayers().subscribe((ids) => {
           this.playerIDs = ids;
-          if(this.playerIDs.length > 0){
-            this.listHeader = "Favourites:"
-          }
-          else{
-            this.listHeader = "No players in Favourites"
+          if (this.playerIDs.length > 0) {
+            this.listHeader = 'Favourites:';
+          } else {
+            this.listHeader = 'No players in Favourites';
           }
           this.players = [];
           for (var i = 0; i < this.playerIDs.length; ++i) {
@@ -65,11 +64,11 @@ export class FavouritesPage implements OnInit {
     await alert.present();
   }
 
-  card_clicked(playerID: string){
+  card_clicked(playerID: string) {
     this.router.navigate(['/player-details', { id: playerID }]);
   }
 
-  async deleteAll(){
+  async deleteAll() {
     const alert = await this.alertController.create({
       header: `Delete All Players?`,
       message: `Do you want to delete all players from your favourites? This cannot be undone.`,

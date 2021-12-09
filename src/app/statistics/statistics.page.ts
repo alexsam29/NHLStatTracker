@@ -9,12 +9,14 @@ import { PlayerService } from '../services/player.service';
   styleUrls: ['./statistics.page.scss'],
 })
 export class StatisticsPage implements OnInit {
-
   playerID: string;
   stat: string;
   playerData: Observable<any>;
   isCardCollapse: number = 0;
-  constructor(private playerService: PlayerService, private route: ActivatedRoute) { }
+  constructor(
+    private playerService: PlayerService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.playerID = this.route.snapshot.paramMap.get('id');
@@ -24,7 +26,5 @@ export class StatisticsPage implements OnInit {
       .subscribe((data) => (this.playerData = data));
   }
 
-  toggleCollapse(){
-
-  }
+  toggleCollapse() {}
 }

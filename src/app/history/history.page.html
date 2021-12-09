@@ -5,7 +5,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="addAll()" >Add All <ion-icon name="add"></ion-icon>
+      <ion-button (click)="addAll()">Add All <ion-icon name="add"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -28,6 +28,7 @@
           <ion-label> Current Season: {{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length -
             1].season.substring(0,4)}} / {{playerData[0].stats[0].splits[playerData[0].stats[0].splits.length -
             1].season.substring(4,8)}}</ion-label>
+
           <!-- PLAYER STATS -->
           <ion-grid
             *ngIf="playerData[0].primaryPosition.type === 'Forward' || playerData[0].primaryPosition.type === 'Defenseman'">

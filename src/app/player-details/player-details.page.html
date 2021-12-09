@@ -24,8 +24,12 @@
       </ion-card-header>
       <ion-card-content>
         <ion-label>Born: {{playerData[0].birthDate}}</ion-label><br>
-        <ion-label>Birthplace: {{playerData[0].birthCity}}, {{playerData[0].birthStateProvince}},
+        <ion-label *ngIf="playerData[0].birthStateProvince; else elseBlock">Birthplace: {{playerData[0].birthCity}},
+          {{playerData[0].birthStateProvince}},
           {{playerData[0].birthCountry}} </ion-label><br>
+        <ng-template #elseBlock>
+          <ion-label>Birthplace: {{playerData[0].birthCity}}, {{playerData[0].birthCountry}} </ion-label>
+        </ng-template>
         <ion-label>Nationality: {{playerData[0].nationality}}</ion-label><br>
         <ion-label
           *ngIf="playerData[0].primaryPosition.type === 'Forward' || playerData[0].primaryPosition.type === 'Defenseman'">

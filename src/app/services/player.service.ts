@@ -21,13 +21,13 @@ export class PlayerService {
       .pipe(map((data) => data['people']));
   }
 
-  addToHistory(id: string){
-    if(!this.history.includes(id)){
+  addToHistory(id: string) {
+    if (!this.history.includes(id)) {
       this.history.push(id);
     }
   }
 
-  getHistory(){
+  getHistory() {
     return [...this.history];
   }
 }
