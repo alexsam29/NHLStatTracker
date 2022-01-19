@@ -59,7 +59,7 @@ This app stores the user’s favourite players locally in the SQLite database.  
 -	When viewing “Playoff Statistics”:
      -	Each card will show stats for that player for a specific playoff year.  The card will be titled with the league name, team name, and season the playoffs took place.
 
-Favourites Page:
+### Favourites Page:
 -	View a list of cards of all the players you’ve saved into your favourites
      -	These players were saved in the SQLite database on the device.
 -	Each card contains a summary of the players information and current season stats.
@@ -67,7 +67,7 @@ Favourites Page:
 -	Click the red trash can button to remove a specific player from the favourites list.
 -	Click the red “Delete All” button in the toolbar to remove all players from the favourites list.
 
-Session History:
+### Session History:
 -	View a list of cards of all the players you have clicked on from the search results in the current session.
      -	This list is not saved and will be lost after the current session ends
 -	Each card contains a summary of the players information and current season stats.
